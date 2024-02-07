@@ -15,7 +15,7 @@ interface AvatarProps {
 }
 
 function Avatar({ uid, url, size, onUpload }: AvatarProps) {
-  const supabase = createClientComponentClient<Database> ();
+  const supabase = createClientComponentClient<Database>();
 
   const [avatarUrl, setAvatarUrl] = useState<Profiles['avatar_url']>(url);
   const [uploading, setUploading] = useState<boolean>(false);
@@ -48,11 +48,12 @@ function Avatar({ uid, url, size, onUpload }: AvatarProps) {
       const fileExtension = file.name.split('.').pop();
       const filePath = `${uid}/avatar.${fileExtension}`;
 
-      const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file);
+      const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file, { upsert: true });
       if (uploadError) throw uploadError;
 
       onUpload(filePath);
     } catch (error) {
+      console.log(error);
       alert('Error uploading avatar');
     } finally {
       setUploading(false);

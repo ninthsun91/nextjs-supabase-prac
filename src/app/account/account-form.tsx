@@ -49,6 +49,7 @@ function AccountForm({ user }: { user: User | null }) {
       }
       console.log('profile fetched', data);
     } catch (error) {
+      console.log(error);
       alert('Error fetching user profile');
     } finally {
       setLoading(false);
