@@ -9,26 +9,40 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      Post: {
+      profiles: {
         Row: {
-          content: string
-          created_at: string
-          files: string[]
-          id: number
+          avatar_url: string | null
+          full_name: string | null
+          id: string
+          updated_at: string | null
+          username: string | null
+          website: string | null
         }
         Insert: {
-          content?: string
-          created_at?: string
-          files: string[]
-          id?: number
+          avatar_url?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string | null
+          username?: string | null
+          website?: string | null
         }
         Update: {
-          content?: string
-          created_at?: string
-          files?: string[]
-          id?: number
+          avatar_url?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
+          username?: string | null
+          website?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
