@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { User } from '@supabase/supabase-js';
 import type { Database, Tables } from '@/types';
+import Avatar from './avatar';
 
 type ProfileForm = {
   username: string | null;
@@ -46,6 +47,7 @@ function AccountForm({ user }: { user: User | null }) {
         setWebsite(data.website);
         setAvatarUrl(data.avatar_url);
       }
+      console.log('profile fetched', data);
     } catch (error) {
       alert('Error fetching user profile');
     } finally {
@@ -87,8 +89,19 @@ function AccountForm({ user }: { user: User | null }) {
     getProfile();
   }, [user, getProfile]);
 
+  const avatarUploadHandler = (url: string) => {
+    setAvatarUrl(url);
+    updateProfile({ fullname, username, website, avatarUrl: url });
+  }
+
   return (
     <div className="form-widget">
+      <Avatar
+        uid={user?.id!}
+        url={avatarUrl}
+        size={150}
+        onUpload={avatarUploadHandler}
+      />
       <div>
         <label htmlFor="email">Email</label>
         <input id="email" type="text" value={user?.email} disabled />
